@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="./../plantilla/default.xhtml">
+
+        <f:metadata>
+            <f:event listener="#{datosPersonalesControlador.controlNavegacion()}"
+                     type="preRenderView"></f:event>
+        </f:metadata>
+
+        <ui:define name="contenido">
+            <script type="text/javascript"
+            src="${facesContext.externalContext.request.contextPath}/resources/js/validacionesUtil.js"></script>
+            <center class="fondo_style">
+
+
+                <h:form id="formulario" styleClass="ingreso_frm" acceptcharset="iso-8859-1">
+
+                    <p:growl id="msg" showDetail="false" autoUpdate="true" sticky="true" />
+
+                    <center>
+                        <p id="titulo_form">
+                            <i class="fa fa-check-square-o fa-2x"></i> Formulario de Registro
+                        </p>
+
+                    </center>
+
+                    <h:panelGrid columns="2" styleClass="estilo_paneles">
+
+                        <h:panelGrid styleClass="panel_estyle_1">
+                            <p:fieldset legend="#{lbl.lbl_datos_personales}">
+                                <h:panelGrid columns="4" columnClasses="column_style"
+                                             styleClass="estilo_class" id="mostrar_indigena">
+
+                                    <h:outputText value="#{lbl.lbl_documento_identificacion}:" />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.documentoIdentificacion}" readonly="true">
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+
+                                    <h:outputText value="* #{lbl.lbl_pais}:" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.idPaisNacionalidad}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" requiredMessage="Debe seleccionar país de nacimiento">
+                                        <p:ajax event="change" update="@this"></p:ajax>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaPaises}" var="pais"
+                                                       itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+
+                                    </p:selectOneMenu>
+
+
+                                    <h:outputText value="#{lbl.lbl_identificacion}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.identificacion}" readonly="true">
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+
+                                    <h:outputText
+                                        value="* #{lbl.lbl_fecha_nacimiento}:" />
+                                    <p:calendar id="proFechaNacimiento" effect="slideDown"
+                                                required="true" requiredMessage="Ingrese Fecha de Nacimiento"
+                                                value="#{datosPersonalesControlador.persona.fechaNacimiento}"
+                                                yearRange="c-75:c+10" maxdate="#{datosPersonalesControlador.fechaMax}" navigator="true" pattern="yyyy-MM-dd">
+                                        <p:ajax event="dateSelect" update="@this" global="false" />
+                                    </p:calendar>
+
+
+
+                                    <h:outputText value="* #{lbl.lbl_primer_apellido}:" />
+                                    <p:inputText value="#{datosPersonalesControlador.persona.primerApellido}"
+                                                 onkeyup="this.value = this.value.toUpperCase();" required="true" requiredMessage="Debe ingresar primer apellido" >
+                                                 <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_discapacidad}:" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.discapacidad}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" >
+                                        <p:ajax event="change" update=":formulario:mostrar_indigena" listener="#{datosPersonalesControlador.cargarDiscapacidad()}"></p:ajax>
+                                        <f:selectItems value="#{datosPersonalesControlador.listaDiscapacidad}" var="dis"
+                                                       itemValue="#{dis.nombre}" itemLabel="#{dis.nombre}" />
+
+                                    </p:selectOneMenu>
+
+
+
+
+                                    <h:outputText value="#{lbl.lbl_segundo_apellido}:" />
+                                    <p:inputText id="nombres"
+                                                 value="#{datosPersonalesControlador.persona.segundoApellido}"
+                                                 onkeyup="this.value = this.value.toUpperCase();" >
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+
+                                    </p:inputText>
+                                    <p:spacer rendered="#{!datosPersonalesControlador.discapacidad}"></p:spacer>
+                                    <p:spacer rendered="#{!datosPersonalesControlador.discapacidad}"></p:spacer>
+
+                                    <h:outputText value="* #{lbl.lbl_nivel_discapacidad}: "  rendered="#{datosPersonalesControlador.discapacidad}"/>
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.nivelDiscapacidad}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" rendered="#{datosPersonalesControlador.discapacidad}">
+                                        <p:ajax event="change" update="@this :formulario" listener="#{datosPersonalesControlador.cargarPorcentaje()}"></p:ajax>
+                                        <f:selectItems value="#{datosPersonalesControlador.listaNivelDiscapacidad}" var="ndis"
+                                                       itemValue="#{ndis}" itemLabel="#{ndis.value}" />
+
+                                    </p:selectOneMenu>
+
+
+
+                                    <h:outputText value="* #{lbl.lbl_nombres}:" />
+                                    <p:inputText id="apellido2"
+                                                 value="#{datosPersonalesControlador.persona.nombres}"
+                                                 onkeyup="this.value = this.value.toUpperCase();" required="true" requiredMessage="Debe ingresar nombres">
+
+
+                                    </p:inputText>
+
+                                    <p:spacer rendered="#{!datosPersonalesControlador.porcentajeDiscapacidad}"></p:spacer>
+                                    <p:spacer rendered="#{!datosPersonalesControlador.porcentajeDiscapacidad}"></p:spacer>
+                                    <h:outputText value="#{lbl.lbl_porcentaje_discapacidad}: *" rendered="#{datosPersonalesControlador.porcentajeDiscapacidad}" />
+
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.porcentajeDiscapacidad}"
+                                        onkeypress="return validarIngresoSoloNumeros(event)" required="true" requiredMessage="Debe ingresar porcentaje" rendered="#{datosPersonalesControlador.porcentajeDiscapacidad}" >
+                                    </p:inputText>
+
+
+                                    <h:outputText value="* #{lbl.lbl_sexo}:" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.sexo}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" requiredMessage="Debe seleccionar el sexo">
+                                        <p:ajax event="change" update="@this"></p:ajax>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItem itemLabel="FEMENINO" itemValue="FEMENINO" />
+                                        <f:selectItem itemLabel="MASCULINO" itemValue="MASCULINO" />
+
+                                    </p:selectOneMenu>
+
+                                    <p:spacer rendered="#{!datosPersonalesControlador.discapacidad}"></p:spacer>
+                                    <p:spacer rendered="#{!datosPersonalesControlador.discapacidad}"></p:spacer>
+                                    <h:outputText value="* #{lbl.lbl_numero_conadis}:" rendered="#{datosPersonalesControlador.discapacidad}" />
+
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.numeroConadis}"
+                                        required="true" requiredMessage="Debe ingresar el número de conadis" rendered="#{datosPersonalesControlador.discapacidad}" >
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_auto_etnia}:" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.autoidentificacionEtnica}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" requiredMessage="Debe seleccionar la etnia">
+                                        <p:ajax event="change" update=":#{p:component('mostrar_indigena')}" listener="#{datosPersonalesControlador.cargarIndigena}"></p:ajax>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaEtnico}" var="etnia"
+                                                       itemValue="#{etnia.value}" itemLabel="#{etnia.value}" />
+
+                                    </p:selectOneMenu>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+
+                                    <h:outputText value="* Región:" rendered="#{datosPersonalesControlador.indigena}" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.pueblo.idRegion}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" requiredMessage="Debe seleccionar región" id="select_region" rendered="#{datosPersonalesControlador.indigena}">
+                                        <p:ajax event="change"
+                                                update="@this selectpueblo" global="false"
+                                                listener="#{datosPersonalesControlador.cargarPueblo}" />
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaRegiones}"
+                                                       var="reg" itemValue="#{reg.id}" itemLabel="#{reg.nombre}" />
+
+                                    </p:selectOneMenu>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <h:outputText value="* Pueblo:" rendered="#{datosPersonalesControlador.indigena}" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.idPueblo}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     id="selectpueblo" required="true" requiredMessage="Debe seleccionar pueblo" rendered="#{datosPersonalesControlador.indigena}">
+                                        <p:ajax event="change" update="@this" global="false" />
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaPueblo}"
+                                                       var="pueb" itemValue="#{pueb.id}" itemLabel="#{pueb.nombre}" />
+
+                                    </p:selectOneMenu>
+
+
+
+
+                                </h:panelGrid>
+
+
+
+
+
+
+                            </p:fieldset>
+
+                            <p:fieldset legend="#{lbl.lbl_datos_contactos}">
+                                <h:panelGrid columns="4" columnClasses="column_style"
+                                             styleClass="estilo_class">
+                                    <h:outputText value="* #{lbl.lbl_telefono_domicilio}:" />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.contacto.telefonoDomicilio}" onkeypress="return validarIngresoSoloNumeros(event)"
+                                        maxlength="9" required="true" requiredMessage="Debe ingresar el teléfono domicilio " validatorMessage="Debe ingresar el código de la Provincia">
+                                        <f:validateRegex pattern="^[0-9]{9}$" />
+                                    </p:inputText>
+                                    <h:outputText value="* #{lbl.lbl_email_personal}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.contacto.emailPersonal}" required="true" requiredMessage="#{lbl.lbl_mensaje_email}" validatorMessage="#{lbl.lbl_mensaje_email}">
+                                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                    </p:inputText>
+
+
+                                    <h:outputText value="* #{lbl.lbl_celular}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.contacto.telefonoCelular}" onkeypress="return validarIngresoSoloNumeros(event)"
+                                        maxlength="10" required="true" requiredMessage="Debe ingresar un número de celular" validatorMessage="Debe introducir un número de celular con 10 dígitos">
+                                        <f:validateRegex pattern="^[0-9]{10}$" />
+                                    </p:inputText>
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+                            <p:fieldset legend="#{lbl.lbl_direccion}">
+                                <h:panelGrid columns="4" columnClasses="column_style"
+                                             styleClass="estilo_class">
+
+                                    <h:outputText value="* #{lbl.lbl_provincia}:" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.ubicacionGeografica.idProvincia}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" requiredMessage="Debe seleccionar provincia">
+                                        <p:ajax event="change"
+                                                update="@this :formulario:select_canton" global="false"
+                                                listener="#{datosPersonalesControlador.cargarCanton()}"/>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaProvincia}"
+                                                       var="prov" itemValue="#{prov.id}" itemLabel="#{prov.nombre}" />  
+
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="* #{lbl.lbl_canton}:" />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.ubicacionGeografica.idCanton}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu" id="select_canton"
+                                                     required="true" requiredMessage="Debe seleccionar Canton">
+                                        <p:ajax event="change"
+                                                update="@this :formulario:select_parroquia" global="false"
+                                                listener="#{datosPersonalesControlador.cargarParroquias}"/>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaCantones}"
+                                                       var="can" itemValue="#{can.id}" itemLabel="#{can.nombre}" />
+
+                                    </p:selectOneMenu>
+
+
+                                    <h:outputText value="* #{lbl.lbl_parroquia}: " />
+                                    <p:selectOneMenu value="#{datosPersonalesControlador.persona.ubicacionGeografica.idParroquia}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true" id="select_parroquia" requiredMessage="Debe seleccionar una parroquia">
+                                        <p:ajax event="change" update="@this"/>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{datosPersonalesControlador.listaParroquias}"
+                                                       var="parr" itemValue="#{parr.id}" itemLabel="#{parr.nombre}" />  
+
+                                    </p:selectOneMenu>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <h:outputText value="* #{lbl.lbl_calle_principal}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.direccion.callePrincipal}" required="true" requiredMessage="Debe ingresar Calle Principal" onkeyup="this.value = this.value.toUpperCase();">
+
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_numero_casa}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.direccion.numeroCasa}" required="true" requiredMessage="Debe ingrear Número de Casa">
+
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_calle_transversal}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.direccion.calleTransversal}" required="true" requiredMessage="Debe ingresar Calle Transversal" onkeyup="this.value = this.value.toUpperCase();">
+
+                                    </p:inputText>
+
+
+                                    <h:outputText value="* #{lbl.lbl_referencia}: " />
+                                    <p:inputText 
+                                        value="#{datosPersonalesControlador.persona.direccion.referencia}" required="true" requiredMessage="Debe ingresar referencia" onkeyup="this.value = this.value.toUpperCase();">
+
+                                    </p:inputText>
+
+
+
+
+
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+
+                        </h:panelGrid> 
+
+
+
+                    </h:panelGrid>
+                    <div class="botones">
+                        <p:commandButton value="#{act.btn_cancelar}" action="#{datosPersonalesControlador.cancelar()}"
+                                         styleClass="registrar_btn" icon="ui-icon-close" update=":formulario" immediate="true">
+                            <p:confirm header="Confirmación" message="¿Está seguro de que quiere abandonar está página?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton  value="#{act.btn_registrar}" action="#{datosPersonalesControlador.redirect()}"
+                                         styleClass="cancelar_btn" icon="ui-icon-check" update=":formulario:msg">
+                            <p:confirm header="Confirmación" message="Asegurese de ingresar correctamente sus datos personales" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </div>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" style="width: 403px !important;">
+                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" style="margin:0 15px 0 110px;" icon="ui-icon-check"   />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+
+
+                </h:form>
+            </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

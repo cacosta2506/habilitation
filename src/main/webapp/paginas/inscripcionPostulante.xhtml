@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="./../plantilla/default.xhtml">
+
+        <f:metadata>
+            <f:event listener="#{inscripcionPostulanteControlador.controlNavegacion()}"
+                     type="preRenderView"></f:event>
+        </f:metadata>
+
+        <ui:define name="contenido">
+
+            <center class="fondo_style">
+
+
+                <h:form id="formulario" styleClass="ingreso_frm" acceptcharset="iso-8859-1">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <center>
+                        <p id="titulo_form">
+                            <i class="fa fa-check-square-o fa-2x"></i> Formulario de Inscripción para Examen de Habilitación Profesional
+                        </p>
+
+                    </center>
+
+                    <h:panelGrid columns="2" styleClass="estilo_paneles">
+
+                        <h:panelGrid >
+                            <p:fieldset legend="DATOS DE INSCRIPCIÓN" >
+                                <p:outputPanel rendered="#{inscripcionPostulanteControlador.persona.origen eq 'CARGA_MASIVA' ? true : false}">
+                                    <div id="aviso_inscripcion_registro">
+                                        <div id="icono">
+                                            <i class="fa fa-info-circle fa-3x"></i>
+                                        </div>
+                                        <div id="contenido-aviso"> En caso de que la IES o carrera reportada al CEAACES no sea la correcta comuníquese a <b> examen_habilitacion@ceaaces.gob.ec </b> antes de continuar con la inscripción.
+                                        </div>
+                                    </div>
+                                </p:outputPanel>  
+                                <p:fieldset legend="Carreras Reportadas" style="margin:  20px 0px 20px 0px;" rendered="#{inscripcionPostulanteControlador.persona.origen eq 'CARGA_MASIVA' ? true : false}">
+                                    <p:dataTable id="tblCarreras" var="carr"
+                                                 value="#{inscripcionPostulanteControlador.listaPersonaCarrera}" rowKey="#{carr.id}" selectionMode="single"
+                                                 selection="#{inscripcionPostulanteControlador.carreraSeleccionada}"
+                                                 emptyMessage="No se encontraron registros..">
+                                        <p:ajax event="rowSelect" update=":formulario" listener="#{inscripcionPostulanteControlador.cargarSedes}" />
+
+                                        <f:facet name="header">
+                                            Seleccione la Carrera reportada por la IES para continuar con la inscripción.
+                                        </f:facet>
+                                        <p:column headerText="#{lbl.lbl_ies}">
+                                            <h:outputText value="#{carr.ies.nombre}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{lbl.lbl_carrera}">
+                                            <h:outputText value="#{carr.carreraIes.nombre_carrera}" />
+                                        </p:column>
+
+
+                                    </p:dataTable>
+
+                                </p:fieldset>
+                                <p:fieldset legend="Titulos Profesionales" style="margin:  20px 0px 20px 0px;" rendered="#{inscripcionPostulanteControlador.persona.origen eq 'SERVICIO' ? true : false}" >
+                                    <p:dataTable id="tblTtitulos" var="titu"
+                                                 value="#{inscripcionPostulanteControlador.listaTitulos}" rowKey="#{titu.registroSenecyt}" selectionMode="single"
+                                                 selection="#{inscripcionPostulanteControlador.tituloSeleccionado}"
+                                                 emptyMessage="No se encontraron registros..">
+                                        <p:ajax event="rowSelect" update=":formulario" listener="#{inscripcionPostulanteControlador.cargarSedes}" />
+
+                                        <f:facet name="header">
+                                            Seleccione el Título Profesional para el cual realizará el proceso de Habilitación Profesional.
+                                        </f:facet>
+                                        <p:column headerText="#{lbl.lbl_ies}">
+                                            <h:outputText value="#{titu.iesNacional eq null ? titu.nombreIesInternacional : titu.iesNacional.nombre}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{lbl.lbl_nombre}">
+                                            <h:outputText value="#{titu.nombreTitulo}" />
+                                        </p:column>
+
+                                        <p:column headerText="#{lbl.lbl_nivel}">
+                                            <h:outputText value="#{titu.nivel}" />
+                                        </p:column>
+
+
+                                    </p:dataTable>
+
+                                </p:fieldset>
+                                <p:outputPanel rendered="#{inscripcionPostulanteControlador.mostrarSedes}">
+                                    <div id="condiciones">
+                                        <div id="titulo_condiciones">Considere que una vez realizada la inscripción en el Centro Académico seleccionado no se realizarán modificaciones. </div>
+
+                                    </div>
+                                </p:outputPanel>
+                                
+                                <h:panelGrid columns="6" style="margin:  20px 0px 0px 0px;">
+
+
+
+                                    <h:outputText value="#{lbl.lbl_sede}:* " rendered="#{inscripcionPostulanteControlador.mostrarSedes}"/>
+                                    <p:selectOneMenu value="#{inscripcionPostulanteControlador.idSede}"
+                                                     style="width: 210px;"
+                                                     id="selectSede" required="true"  rendered="#{inscripcionPostulanteControlador.mostrarSedes}">
+                                        <p:ajax event="change" update=":formulario" global="false" listener="#{inscripcionPostulanteControlador.cargarMotivoCambio()}" />
+                                        <f:selectItems value="#{inscripcionPostulanteControlador.listaSedeProceso}"
+                                                       var="sede" itemValue="#{sede.id}" itemLabel="#{sede.sede.nombre} (#{sede.sede.ubicacionGeografica.canton.nombre})" />
+
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="#{lbl.lbl_provincia}:" rendered="#{inscripcionPostulanteControlador.mostrarSedes}"/>
+                                    <h:outputText value="#{inscripcionPostulanteControlador.sedeProcesoTemp.sede.ubicacionGeografica.provincia.nombre}" style="font-weight: bold;" rendered="#{inscripcionPostulanteControlador.mostrarSedes}"/>
+
+                                    <h:outputText value="#{lbl.lbl_canton}:" rendered="#{inscripcionPostulanteControlador.mostrarSedes}"/>
+                                    <h:outputText value="#{inscripcionPostulanteControlador.sedeProcesoTemp.sede.ubicacionGeografica.canton.nombre}" style="font-weight: bold;" rendered="#{inscripcionPostulanteControlador.mostrarSedes}"/>
+
+                                    <h:outputText value="Motivo de cambio:* " rendered="#{inscripcionPostulanteControlador.cambioSede}"/>
+                                    <p:selectOneMenu value="#{inscripcionPostulanteControlador.inscripcion.motivoCambioSede}"
+                                                     style="width: 210px;"
+                                                     rendered="#{inscripcionPostulanteControlador.cambioSede}">
+
+                                        <f:selectItems value="#{inscripcionPostulanteControlador.listaCambioSede}"
+                                                       var="motivo" itemValue="#{motivo}" itemLabel="#{motivo.valor}" />
+
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+
+
+                            </p:fieldset>
+
+                        </h:panelGrid> 
+
+
+
+                    </h:panelGrid>
+                    <div class="botones">
+                        <p:commandButton value="#{act.btn_cancelar}" action="#{inscripcionPostulanteControlador.cancelar()}"
+                                         styleClass="registrar_btn" icon="ui-icon-close" update=":formulario" immediate="true">
+                            <p:confirm header="Confirmación" message="¿Está seguro de que quiere abandonar está página?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton action="#{inscripcionPostulanteControlador.redirect()}" value="#{act.btn_finalizar}"
+                                         styleClass="cancelar_btn" icon="ui-icon-check" update=":formulario:growl" disabled="#{!inscripcionPostulanteControlador.mostrarSedes}"/>
+                    </div>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                         <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" style="margin: 0 15px 0 100px;" icon="ui-icon-check"   />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+
+
+            </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

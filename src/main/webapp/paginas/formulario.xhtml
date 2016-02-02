@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="./../plantilla/template.xhtml">
+
+
+        <ui:define name="contenido">
+
+            <center class="fondo_style">
+                    <!-- TEMP 	<h:inputHidden value="#{ingresoController.cedula}" /> -->
+
+                <h:form id="formulario" styleClass="ingreso_frm">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <center>
+                        <p id="titulo_form">
+                            <i class="fa fa-check-square-o fa-2x"></i> Formulario de Registro
+                        </p>
+
+                    </center>
+
+                    <h:panelGrid columns="2" styleClass="estilo_paneles">
+
+                        <h:panelGrid styleClass="panel_estyle_1">
+                            <p:fieldset legend="Datos Generales">
+                                <h:panelGrid columns="2" columnClasses="column_style"
+                                             styleClass="estilo_class">
+                                    <h:outputText value="Tipo de Identificación:" />
+                                    <p:inputText id="tipo_identificacion"
+                                                 value="#{ingresoController.tipo_identificacion}"
+                                                 disabled="true" />
+
+
+                                    <h:outputText value="Número de Documento:" />
+                                    <p:inputText id="numero_documento"
+                                                 value="#{ingresoController.cedula}" label="numero_documento"
+                                                 disabled="true" />
+
+
+                                    <h:outputText value="Nombres:* " />
+                                    <p:inputText id="nombres"
+                                                 value="#{formularioController.persona.nombre_persona}"
+                                                 label="nombres">
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+                                    <h:outputText value="Apellido1:* " />
+                                    <p:inputText id="apellido1"
+                                                 value="#{formularioController.persona.apellido1}"
+                                                 label="apellido1">
+
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+                                    <h:outputText value="Apellido2: " />
+                                    <p:inputText id="apellido2"
+                                                 value="#{formularioController.persona.apellido2}"
+                                                 label="apellido2">
+
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+                                    <h:outputText value="Indique su fecha de nacimiento:* " />
+                                    <p:calendar
+                                        value="#{formularioController.persona.fecha_nacimiento}"
+                                        id="fecha_nacimiento" pattern="dd/MM/yyyy" navigator="true"
+                                        yearRange="c-80:c+80" mindate="01/01/1930" maxdate="31/12/1997"
+                                        readonlyInput="true">
+                                        <p:ajax event="dateSelect" update="@this"></p:ajax>
+                                        <p:watermark for="fecha_nacimiento" value="dd/mm/yyyy" />
+                                    </p:calendar>
+
+
+
+                                    <h:outputText value="¿Cómo se identifica según su género?:* " />
+                                    <p:selectOneMenu value="#{formularioController.persona.sexo}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true">
+                                        <p:ajax event="change" update="@this"></p:ajax>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                        <f:selectItem itemLabel="Femenino" itemValue="FEMENINO" />
+                                        <f:selectItem itemLabel="Masculino" itemValue="MASCULINO" />
+                                        <f:selectItem itemLabel="LGTBI" itemValue="LGTBI" />
+
+                                    </p:selectOneMenu>
+
+
+
+                                    <h:outputText value="Mail:* " />
+                                    <p:inputText id="mail"
+                                                 value="#{formularioController.persona.email}" label="mail">
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+                                    <h:outputText
+                                        value="Télefono Celular o Télefono Convencional:* " />
+                                    <p:inputMask id="cell"
+                                                 value="#{formularioController.persona.telefono_celular}"
+                                                 label="cell" mask="999- 9999999">
+
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputMask>
+
+
+                                    <h:outputText value="País de Origen:* " />
+                                    <p:selectOneMenu value="#{formularioController.idPais}"
+                                                     panelStyleClass="select_menu" styleClass="select_menu"
+                                                     required="true">
+                                        <p:ajax event="change" update="@this" global="false" />
+                                        <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                        <f:selectItems value="#{formularioController.paises}" var="pa"
+                                                       itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+                                        <f:ajax render="@form" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+
+                                <h:panelGroup rendered="#{formularioController.idPais == '1'}">
+                                    <h:panelGrid columns="2" columnClasses="column_style"
+                                                 styleClass="estilo_class">
+                                        <h:outputText value="Provincia de Origen:* " />
+                                        <p:selectOneMenu value="#{formularioController.idProvincia}"
+                                                         panelStyleClass="select_menu" styleClass="select_menu"
+                                                         required="true">
+                                            <p:ajax event="change"
+                                                    update="@this :formulario:selectcantones" global="false"
+                                                    listener="#{formularioController.cargarCantones}" />
+                                            <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                            <f:selectItems value="#{formularioController.provincias}"
+                                                           var="pa" itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+                                        </p:selectOneMenu>
+
+
+                                        <h:outputText value="Canton de Origen:* " />
+                                        <p:selectOneMenu id="selectcantones"
+                                                         panelStyleClass="select_menu" styleClass="select_menu"
+                                                         value="#{formularioController.idCanton}" required="true">
+                                            <p:ajax event="change" update="@this" global="false" />
+                                            <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                            <f:selectItems value="#{formularioController.cantones}"
+                                                           var="pa" itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                                <p:fieldset legend="Datos Idioma" toggleable="true">
+                                    <h:panelGrid id="idIdioma" styleClass="estilo_class">
+
+                                        <h:panelGrid columns="2" columnClasses="column_style"
+                                                     styleClass="estilo_class">
+                                            <h:outputText
+                                                value="¿Qué idioma habla fluidamente y utiliza para comunicarse?:* " />
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="2" columnClasses="column_style"
+                                                     styleClass="estilo_class">
+                                            <h:outputText value=" + Español: " />
+                                            <h:selectBooleanCheckbox id="idEspanol"
+                                                                     value="#{formularioController.idiomaEspanol}" />
+                                            <h:outputText value=" + Inglés: " />
+                                            <h:selectBooleanCheckbox id="idIngles"
+                                                                     value="#{formularioController.idiomaIngles}" />
+                                            <h:outputText value=" + Otro: " />
+                                            <h:selectBooleanCheckbox id="idOtro"
+                                                                     value="#{formularioController.idiomaOtro}">
+                                                <f:ajax render="idIdioma" />
+                                            </h:selectBooleanCheckbox>
+
+                                        </h:panelGrid>
+
+                                        <p:outputPanel id="oPanelID"
+                                                       rendered="#{formularioController.idiomaOtro==true}">
+                                            <h:panelGrid columns="2" columnClasses="column_style"
+                                                         styleClass="estilo_class"
+                                                         rendered="#{formularioController.idiomaOtro==true}">
+                                                <h:outputText value="Especifique el idioma: " />
+                                                <p:inputText id="idiomaEspecificado"
+                                                             value="#{formularioController.idiomaEspecificado}"
+                                                             label="idiomaEspecificado">
+                                                    <p:ajax event="blur" update="@this"></p:ajax>
+                                                </p:inputText>
+                                            </h:panelGrid>
+                                        </p:outputPanel>
+
+
+                                    </h:panelGrid>
+                                </p:fieldset>
+                                <p:fieldset legend="Datos Étnicos" toggleable="true">
+                                    <h:panelGrid id="idIndigena" styleClass="estilo_class">
+
+                                        <h:panelGrid id="autoetnica" columns="2"
+                                                     columnClasses="column_style" styleClass="estilo_class">
+                                            <h:outputText
+                                                value="¿Cómo se identifica según su cultura y costumbres?:* " />
+
+                                            <p:selectOneMenu id="etnica"
+                                                             value="#{formularioController.etni}"
+                                                             panelStyleClass="select_menu" styleClass="select_menu_1"
+                                                             required="true">
+                                                <p:ajax update=":formulario:idIndigena" event="change"
+                                                        global="false"
+                                                        listener="#{formularioController.cargarIndigena}" />
+                                                <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                <f:selectItems value="#{formularioController.etnico}"
+                                                               var="pa" itemValue="#{pa.name}" itemLabel="#{pa.value}" />
+                                            </p:selectOneMenu>
+
+                                        </h:panelGrid>
+
+
+                                        <p:outputPanel rendered="#{formularioController.indigena}">
+                                            <h:panelGrid columns="2" columnClasses="column_style"
+                                                         styleClass="estilo_class">
+                                                <h:outputText value="Región:* " />
+                                                <p:selectOneMenu value="#{formularioController.idRegion}"
+                                                                 panelStyleClass="select_menu" styleClass="select_menu_1"
+                                                                 required="true">
+                                                    <p:ajax event="change"
+                                                            update="@this :formulario:selectpueblo" global="false"
+                                                            listener="#{formularioController.cargarPueblo}" />
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                                    <f:selectItems value="#{formularioController.region}"
+                                                                   var="pa" itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+
+                                            <h:panelGrid columns="2" columnClasses="column_style"
+                                                         styleClass="estilo_class">
+                                                <h:outputText value="Pueblo:* " />
+                                                <p:selectOneMenu value="#{formularioController.idPueblo}"
+                                                                 panelStyleClass="select_menu" styleClass="select_menu_1"
+                                                                 id="selectpueblo" required="true">
+                                                    <p:ajax event="change" update="@this" global="false" />
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                                    <f:selectItems value="#{formularioController.pueblo}"
+                                                                   var="pa" itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+
+
+
+                                        </p:outputPanel>
+
+                                    </h:panelGrid>
+                                </p:fieldset>
+                                <p:fieldset legend="Datos Discapacidad" toggleable="true">
+                                    <h:panelGrid id="idDiscapacidad" styleClass="estilo_class">
+
+                                        <h:panelGrid id="pnlDiscapacidad" columns="2"
+                                                     columnClasses="column_style" styleClass="estilo_class">
+                                            <h:outputText value="Discapacidad:* " />
+
+                                            <p:selectOneMenu id="cbDiscapacidad"
+                                                             value="#{formularioController.personaDiscapacidad.discapacidad}"
+                                                             panelStyleClass="select_menu" styleClass="select_menu_1"
+                                                             required="true">
+                                                <p:ajax update=":formulario:idDiscapacidad" event="change"
+                                                        global="false"
+                                                        listener="#{formularioController.cargarIndigena}" />
+                                                <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                <f:selectItems value="#{formularioController.discapacidad}"
+                                                               var="pa" itemValue="#{pa.name}" itemLabel="#{pa.value}" />
+                                                <f:ajax render="idDiscapacidad" />
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+
+                                        <p:outputPanel
+                                            rendered="#{formularioController.personaDiscapacidad.discapacidad != 'NINGUNA' and formularioController.personaDiscapacidad.discapacidad != 'Seleccione'}">
+                                            <h:panelGrid columns="2" columnClasses="column_style"
+                                                         styleClass="estilo_class">
+                                                <h:outputText
+                                                    value="¿De acuerdo al CONADIS/MSP en qué grado está calificada su discapacidad?:* " />
+                                                <p:selectOneMenu
+                                                    value="#{formularioController.personaDiscapacidad.grado}"
+                                                    panelStyleClass="select_menu" styleClass="select_menu_1"
+                                                    id="selectGradoDiscapacidad" required="true">
+                                                    <p:ajax event="change" update="@this" global="false" />
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                    <f:selectItems
+                                                        value="#{formularioController.gradoDiscapacidad}" var="pa"
+                                                        itemValue="#{pa.name}" itemLabel="#{pa.value}" />
+                                                    <f:ajax render="idDiscapacidad" />
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+
+
+                                            <p:outputPanel id="idPorcentajePnl"
+                                                           rendered="#{formularioController.personaDiscapacidad.grado == 'PORCENTAJE'}">
+                                                <h:panelGrid columns="2" columnClasses="column_style"
+                                                             styleClass="estilo_class">
+
+                                                    <h:outputText
+                                                        value="Porcentaje:* (Debe ingresar el valor %)" />
+                                                    <p:inputText id="porcentaje_discapacidad"
+                                                                 value="#{formularioController.personaDiscapacidad.porcentaje}"
+                                                                 label="Porcentaje Discapacidad" required="true" />
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                            <p:outputPanel>
+                                                <h:panelGrid columns="2" columnClasses="column_style"
+                                                             styleClass="estilo_class">
+                                                    <h:outputText value="Número carnet CONADIS/MSP:* " />
+                                                    <p:inputText id="numero_conadis"
+                                                                 value="#{formularioController.persona.numeroConadis}"
+                                                                 label="numeroConadis" required="true" />
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:outputPanel>
+
+
+                                    </h:panelGrid>
+                                </p:fieldset>
+
+
+                            </p:fieldset>
+
+
+                        </h:panelGrid>
+
+
+                        <h:panelGrid id="idTipoUsuariopanelGrid"
+                                     styleClass="panel_estyle_2">
+                            <p:fieldset legend="Datos de Registro" styleClass="registro_panel">
+                                <p:row>
+                                    <p:column>
+                                        <p:selectOneRadio value="#{formularioController.tipo_usuario}"
+                                                          styleClass="select_menu"
+                                                          id="options">
+
+                                            <p:ajax update="idTipoUsuariopanelGrid" event="change"
+                                                    global="false"
+                                                    listener="#{formularioController.cargarTipousuario}" />
+                                            <f:selectItem id="estudiante" itemLabel="Estudiante"
+                                                          itemValue="1" />
+                                            <f:selectItem id="profesional" itemLabel="Profesional"
+                                                          itemValue="2" />
+                                            <f:selectItem id="otro" itemLabel="Otro" itemValue="3" />
+                                        </p:selectOneRadio>
+                                    </p:column>
+                                </p:row>
+
+                                <p:outputPanel
+                                    rendered="#{formularioController.profesional_panel}">
+                                    <p:fieldset id="profesional_panel" legend="Profesional">
+                                        <center>
+
+                                            <div id="aviso_2">
+                                                <!-- 	<div id="icono_3">
+                                                        <i class="fa fa-info-circle fa-3x"></i>
+                                                </div> -->
+                                                <div id="contenido-aviso_2">Por disposición de la
+                                                    Secretaria Nacional de la Administración Pública del
+                                                    Ecuador, los funcionarios y las funcionarias de las
+                                                    instituciones públicas del Ecuador no podrán participar en
+                                                    las mesas temáticas de la rendición de cuentas</div>
+                                            </div>
+                                        </center>
+                                        <h:panelGrid columns="2" columnClasses="column_style"
+                                                     styleClass="estilo_class">
+                                            <h:outputText value="Tipo:* " />
+                                            <p:selectOneMenu
+                                                value="#{formularioController.tipo_profesional}"
+                                                panelStyleClass="select_menu" styleClass="select_menu"
+                                                panelStyle="width:188px !important">
+                                                <p:ajax event="change" update="@this" global="false" />
+                                                <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                <f:selectItem itemLabel="LIBRE EJERCICIO"
+                                                              itemValue="LIBRE EJERCICIO" />
+                                                <f:selectItem itemLabel="RELACION DE DEPENDENCIA"
+                                                              itemValue="RELACION DE DEPENDENCIA" />
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="2" columnClasses="column_style"
+                                                     styleClass="estilo_class">
+                                            <h:outputText value="Actividad Económica:* " />
+                                            <p:selectOneMenu
+                                                value="#{formularioController.actividad_profesional}"
+                                                required="true" panelStyleClass="select_menu"
+                                                styleClass="select_menu" panelStyle="width:480px !important"
+                                                style="width:300px !important">
+                                                <p:ajax event="change" update="@this" global="false" />
+                                                <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                <f:selectItems
+                                                    value="#{formularioController.actividadEconomica}" var="pa"
+                                                    itemValue="#{pa}" itemLabel="#{pa}" />
+
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2"
+                                                     styleClass="estilo_class">
+                                            <h:outputText
+                                                value="Estudios más altos culminados a la fecha:* " />
+                                            <p:selectOneMenu value="#{formularioController.nivel}"
+                                                             panelStyleClass="select_menu" styleClass="select_menu"
+                                                             required="true">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                <f:selectItems
+                                                    value="#{formularioController.nivelEstudianteSuperior}"
+                                                    var="pa" itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:fieldset>
+                                </p:outputPanel>
+                                <p:outputPanel
+                                    rendered="#{formularioController.estudiante_panel}">
+                                    <p:fieldset id="estudiante_panel" legend="Estudiante">
+                                        <h:panelGrid columns="2" columnClasses="column_style"
+                                                     styleClass="estilo_class">
+                                            <h:outputText value="Nombre de la Institución:* "
+                                                          id="nombre_institucion_estudiante1" />
+                                            <p:inputText id="nombre_institucion_estudiante"
+                                                         value="#{formularioController.estudiante.institucion}"
+                                                         label="nombre_institucion_estudiante">
+                                                <p:ajax event="blur" update="@this"></p:ajax>
+                                            </p:inputText>
+                                        </h:panelGrid>
+                                        <h:panelGrid id="idNivelEstPanelTotal"
+                                                     styleClass="estilo_class">
+                                            <h:panelGrid id="idNivelEstPanel" columns="2"
+                                                         columnClasses="column_style" styleClass="estilo_class">
+                                                <h:outputText value="Nivel:* " />
+                                                <p:selectOneMenu value="#{formularioController.nivel}"
+                                                                 panelStyleClass="select_menu" styleClass="select_menu">
+                                                    <p:ajax update="idFinanciamientoEstPanel"
+                                                            listener="#{formularioController.cargarFinanciamiento}" />
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                    <f:selectItems
+                                                        value="#{formularioController.nivelEstudiante}" var="pa"
+                                                        itemValue="#{pa.id}" itemLabel="#{pa.nombre}" />
+                                                    <f:ajax render="idNivelEstPanelTotal" />
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+                                            <h:panelGrid id="idFinanciamientoEstPanel" columns="2"
+                                                         columnClasses="column_style" styleClass="estilo_class">
+                                                <h:outputText value="Financiamiento:* " />
+                                                <p:selectOneMenu id="cbFinanciamiento"
+                                                                 value="#{formularioController.tipo}" required="true"
+                                                                 panelStyleClass="select_menu" styleClass="select_menu">
+                                                    <p:ajax event="change" update="@this" global="false" />
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                    <f:selectItems
+                                                        value="#{formularioController.tipoEstudiante}" var="pa"
+                                                        itemValue="#{pa.id}" itemLabel="#{pa.financiamiento}" />
+
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </p:fieldset>
+                                </p:outputPanel>
+
+                                <p:outputPanel rendered="#{formularioController.otro_panel}">
+                                    <p:fieldset id="otros_panel" legend="Otros">
+                                        <h:panelGrid columns="2" columnClasses="column_style"
+                                                     styleClass="estilo_class">
+                                            <h:outputText value="Actividad Económica:* " />
+                                            <p:selectOneMenu
+                                                value="#{formularioController.actividad_otros}"
+                                                required="true" panelStyleClass="select_menu"
+                                                styleClass="select_menu" panelStyle="width:480px !important"
+                                                style="width:300px !important">
+                                                <p:ajax event="change" update="@this" global="false" />
+                                                <f:selectItem itemLabel="Seleccione" itemValue="Seleccione" />
+                                                <f:selectItems
+                                                    value="#{formularioController.actividadEconomica}" var="pa"
+                                                    itemValue="#{pa}" itemLabel="#{pa}" />
+
+                                            </p:selectOneMenu>
+
+                                        </h:panelGrid>
+
+
+                                    </p:fieldset>
+
+                                </p:outputPanel>
+
+                                <h:panelGrid columns="2" columnClasses="column_style"
+                                             styleClass="estilo_class">
+                                    <h:outputText value="Temática de Interés:* " />
+                                    <p:selectOneMenu value="#{formularioController.idMesaTematica}"
+                                                     required="true" panelStyle="width:500px !important"
+                                                     style="width:300px !important">
+                                        <p:ajax update=":formulario:id_MesaTematica" event="change"
+                                                global="false"
+                                                listener="#{formularioController.cargarmesaTematica}" />
+                                        <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                        <f:selectItems value="#{formularioController.mesa_tematica}"
+                                                       var="pa" itemValue="#{pa.id}" itemLabel="#{pa.tematica}" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+
+
+
+
+                                <h:panelGrid columns="1" id="id_MesaTematica"
+                                             columnClasses="column_style" styleClass="estilo_class">
+
+                                    <p:fieldset id="mesaTematica1"
+                                                rendered="#{formularioController.mesatematica1}"
+                                                legend="Evaluación y Acreditación de Universidades y Escuelas Politécnicas">
+                                        <div id="li">
+                                            <p style="margin-bottom: 20px">
+                                                Facilitador: <b>Ángel Naranjo</b>
+
+                                            </p>
+                                            <p style="margin-bottom: 20px">¿Qué es evaluación y con
+                                                qué propósito se hace?</p>
+                                            <ul>
+                                                <li style="margin-bottom: 20px">Cómo se hizo el modelo
+                                                    de valuación</li>
+                                                <li style="margin-bottom: 20px">Cómo se hizo la
+                                                    evaluación de:<br />
+
+                                                    <ul>
+
+                                                        <li style="margin-top: 10px">Extensiones</li>
+                                                        <li>Institucional</li>
+                                                        <li>Amawtay wasi</li>
+                                                    </ul>
+
+                                                </li>
+                                                <li style="margin-bottom: 20px">Cómo se elaboró el
+                                                    modelo genérico para la de evaluación de carreras
+                                                    presenciales y semipresenciales.</li>
+
+                                            </ul>
+
+                                        </div>
+                                    </p:fieldset>
+
+                                    <p:fieldset id="mesaTematica2"
+                                                rendered="#{formularioController.mesatematica2}"
+                                                legend="Evaluación de Institutos Superiores">
+                                        <div id="li">
+                                            <p style="margin-bottom: 20px">
+                                                Facilitador: <b>Luis Fernando Cuji</b>
+                                            </p>
+                                            <p style="margin-bottom: 20px">¿Qué es evaluación y con
+                                                qué propósito se hace?</p>
+                                            <ul>
+                                                <li style="margin-bottom: 20px">La evaluación del nivel
+                                                    técnico y tecnológico o sus equivalentes en el sistema de
+                                                    educación superior ecuatoriano.</li>
+                                                <li style="margin-bottom: 20px">Los institutos
+                                                    superiores pedagógicos e interculturales bilingües y sus
+                                                    resultados de aprendizaje.</li>
+                                                <li style="margin-bottom: 20px">La evaluación
+                                                    institucional de las instituciones de formación artísticas
+                                                    en el nivel técnico y tecnológico.</li>
+                                                <li style="margin-bottom: 20px">La preparación de la
+                                                    evaluación de los institutos técnicos y tecnológicos.</li>
+                                            </ul>
+
+                                        </div>
+
+
+                                    </p:fieldset>
+
+                                    <p:fieldset id="mesaTematica3"
+                                                rendered="#{formularioController.mesatematica3}"
+                                                legend="Aseguramiento de la calidad">
+                                        <div id="li">
+                                            <p style="margin-bottom: 20px">
+                                                Facilitador: <b>Bayron Ruiz</b>
+                                            </p>
+                                            <p style="margin-bottom: 20px">¿Qué es calidad y con qué
+                                                propósito se hace el aseguramiento de la calidad?</p>
+                                            <ul>
+                                                <li style="margin-bottom: 20px">Cómo se hizo el proceso
+                                                    de seguimiento y acompañamiento a las extensiones de las
+                                                    IES.
+                                                    <ul>
+                                                        <li style="margin-top: 10px">Planes de mejoras</li>
+                                                        <li>Planes de fortalecimiento</li>
+                                                        <li>La importancia de éstas acciones</li>
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
+
+                                        </div>
+
+
+                                    </p:fieldset>
+
+                                    <p:fieldset id="mesaTematica4"
+                                                rendered="#{formularioController.mesatematica4}"
+                                                legend="Gestión Administrativa Financiera">
+                                        <div id="li">
+                                            <p style="margin-bottom: 20px">
+                                                Facilitador: <b>Marcelo Albuja</b>
+                                            </p>
+
+                                            <ul>
+                                                <li style="margin-bottom: 20px">Cómo es la estructura
+                                                    administrativa del CEACES</li>
+                                                <li style="margin-bottom: 20px">Cómo es la gestión
+                                                    Financiera del CEAACES</li>
+                                                <li style="margin-bottom: 20px">Gestión de Instrumentos
+                                                    Técnicos</li>
+
+                                            </ul>
+
+                                        </div>
+
+
+                                    </p:fieldset>
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+                        </h:panelGrid>
+
+
+
+
+
+                    </h:panelGrid>
+                    <div class="botones">
+                        <p:commandButton onclick="dlgRegistro.show()" value="Registrar"
+                                         styleClass="registrar_btn" icon="ui-icon-check" />
+                        <p:commandButton onclick="dlgCancelar.show()" value="Cancelar"
+                                         styleClass="cancelar_btn" icon="ui-icon-close" immediate="true" />
+                    </div>
+
+
+
+                    <p:confirmDialog id="cfRegistro" widgetVar="dlgRegistro"
+                                     header="Confirmación" severity="alert" styleClass="confirmacion"
+                                     message="¿Desea guardar la información? Tenga en cuenta que después de ejecutar esta acción no se podrá actualizar ningún dato">
+                        <center>
+                            <h:panelGrid columns="3">
+                                <p:commandButton value="Si" update="@form" ajax="false"
+                                                 action="#{formularioController.registrar}" style="width:100px"
+                                                 icon="ui ui-icon-check" immediate="true" />
+                                <p:spacer width="10" />
+                                <p:commandButton value="No" onclick="dlgRegistro.hide()"
+                                                 style="width:100px" icon="ui ui-icon-closethick" />
+                            </h:panelGrid>
+                        </center>
+                    </p:confirmDialog>
+                    <p:confirmDialog id="cfCancelar" widgetVar="dlgCancelar"
+                                     header="Confirmación" severity="alert" styleClass="confirmacion"
+                                     message="¿Seguro desea salir de esta página? ">
+                        <center>
+                            <h:panelGrid columns="3">
+                                <p:commandButton value="Si" update="@form" ajax="false"
+                                                 action="#{formularioController.cancelar}" style="width:100px"
+                                                 icon="ui ui-icon-check" />
+                                <p:spacer width="10" />
+                                <p:commandButton value="No" onclick="dlgCancelar.hide()"
+                                                 style="width:100px" icon="ui ui-icon-closethick" />
+                            </h:panelGrid>
+                        </center>
+                    </p:confirmDialog>
+                </h:form>
+            </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

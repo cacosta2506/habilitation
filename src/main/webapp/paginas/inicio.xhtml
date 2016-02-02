@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../template/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <p:ajaxStatus onstart="esperando.show()" onsuccess="esperando.hide()" />
+    <p:dialog widgetVar="esperando" modal="true" resizable="false"
+              closable="false" draggable="false" header="Espere por favor...">
+        <center>
+            <p:graphicImage value="images/saving.gif" />
+        </center>
+    </p:dialog>
+    <ui:define name="contenido">
+        <center style="height: 100%;">
+
+            <div id="token"
+                 style="background-image: url(/resources/images/banner-rendicion.jpg); height: 600px;">
+                <h:form id="ingreso">
+
+
+
+                    <p:messages id="mensajes" autoUpdate="true" showDetail="false" escape="false" closable="true"  />
+
+                    <h:panelGrid id="panelIngreso" columnClasses="panelIngreso"
+                                 captionClass="panelTitle">
+
+                        <f:facet name="header">
+                            <p id="titulo">Sistema de Habilitación</p>
+                        </f:facet>
+                        <div id="aviso">
+                            <div id="icono">
+                                <i class="fa fa-info-circle fa-3x"></i>
+                            </div>
+                            <div id="contenido-aviso">Estimado Usuario ingrese su cédula o pasaporte para registrarse en el sistema.
+                            </div>
+                        </div>
+                        <h:panelGrid columns="2" id="panelLogin">
+                            <p id="identificacion">
+                                <i class="fa fa-asterisk"></i> Número de Identificación:
+                            </p>
+                            <p:inputText style="margin-left:20px" id="numero_identificacion"
+                                         value="#{inicioControlador.cedula}" required="true"
+                                         label="Numero_Identificacion"
+                                         onkeyup="this.value = this.value.toUpperCase();" requiredMessage="Pasaporte o Cédula requerido"/>
+                        </h:panelGrid>
+
+                        <p:selectOneRadio value="#{inicioControlador.valor}"
+                                          style="margin-left: 40px" id="options" styleClass="credencial">
+                            <f:selectItem id="pasaporte" itemLabel="Pasaporte" itemValue="1" />
+                            <f:selectItem id="cedula" itemLabel="Cédula" itemValue="2" />
+                        </p:selectOneRadio>
+                                                
+                        <p:captcha label="Captcha" required="true" requiredMessage="Debe ingresar Captcha" validatorMessage="Captcha incorrecta" />
+                        <p:commandButton action="#{inicioControlador.devolverFormulario}" ajax="false"
+                                         value="Registrarse" icon="icon-external-link" update=":ingreso"
+                                         styleClass="registro">
+                        </p:commandButton>
+
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </center>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../plantilla/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <f:metadata>
+        <f:event listener="#{loginControlador.controlNavegacion()}"
+                 type="preRenderView"></f:event>
+    </f:metadata>
+    <p:ajaxStatus onstart="esperando.show()" onsuccess="esperando.hide()" />
+    <p:dialog widgetVar="esperando" modal="true" resizable="false"
+              closable="false" draggable="false" header="Espere por favor...">
+        <center>
+            <p:graphicImage value="images/saving.gif" />
+        </center>
+    </p:dialog>
+    <ui:define name="contenido">
+        <center style="height: 100%;">
+
+            <div id="token"
+                 style="background-image: url(/resources/images/banner-rendicion.jpg); height: 600px;">
+
+                <h:form id="ingreso" prependId="false">
+
+                    <p:messages id="mensajes" autoUpdate="true" showDetail="false" escape="false" closable="true"  />
+
+                    <h:panelGrid id="panelIngreso" columnClasses="panelIngreso"
+                                 captionClass="panelTitle">
+
+                        <f:facet name="header">
+                            <p id="titulo">Sistema de Habilitación</p>
+                        </f:facet>
+                       
+                        <h:panelGrid columns="2" id="panelLogin">
+                            <p id="identificacion">
+                                <i class="fa fa-asterisk"></i> Número de Identificación:
+                            </p>
+                            <p:inputText style="margin-left:20px" 
+                                         value="#{loginCredentials.userId}"
+                                         required="true"
+                                         label="Numero_Identificacion"
+                                         onkeyup="this.value = this.value.toUpperCase();" requiredMessage="Pasaporte o Cédula requerido"/>
+                        </h:panelGrid>                        
+
+                        <p id="identificacion">
+                            <i class="fa fa-asterisk"></i> Código de seguridad:
+                        </p>
+                        <p:password style="margin-left:20px" id="j_password"
+                                    required="true"
+                                    value="#{loginCredentials.password}"
+                                    requiredMessage="Token Requerido"/>
+                        <h:panelGrid columns="2" style="margin-left:55px">
+                            <p:commandButton action="#{loginControlador.cancelar()}"
+                                         ajax="false"
+                                         value="Cancelar" icon="ui-icon-close" update=":ingreso"
+                                         styleClass="registro" immediate="true">
+                        </p:commandButton>
+                        
+                        <p:commandButton action="#{loginControlador.login}"
+                                         ajax="false"
+                                         value="Registrarse" icon="icon-external-link" update=":ingreso"
+                                         styleClass="registro">
+                        </p:commandButton>
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </center>
+    </ui:define>
+
+</ui:composition>

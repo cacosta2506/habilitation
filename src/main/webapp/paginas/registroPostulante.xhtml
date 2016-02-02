@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+    <ui:composition template="./../plantilla/default.xhtml">
+
+        <f:metadata>
+            <f:event listener="#{registroPostulanteControlador.controlNavegacion()}"
+                     type="preRenderView"></f:event>
+        </f:metadata>
+
+        <ui:define name="contenido">
+
+            <center class="fondo_style">
+
+
+                <h:form id="formulario" styleClass="ingreso_frm" acceptcharset="iso-8859-1">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <center>
+                        <p id="titulo_form">
+                            <i class="fa fa-check-square-o fa-2x"></i> Inscripciones del Usuario
+                        </p>
+
+                    </center>
+
+                    <h:panelGrid columns="2" styleClass="estilo_paneles">
+
+                        <h:panelGrid >
+                            <p:outputPanel rendered="#{!registroPostulanteControlador.inscripciones}">
+                                <div id="aviso_registro">
+
+                                    <div id="contenido-aviso">No se encontraron registros de inscripciones para el Usuario: #{registroPostulanteControlador.persona.identificacion}  
+                                    </div>
+                                </div>
+                            </p:outputPanel>
+                            <p:outputPanel rendered="#{registroPostulanteControlador.inscripciones}">
+                                <p:dataTable id="tblIncripciones" var="ins"
+                                             value="#{registroPostulanteControlador.listaInscripciones}"
+                                             emptyMessage="No se encontraron registros..">
+
+                                    <p:column headerText="#{lbl.lbl_proceso}">
+                                        <h:outputText value="#{ins.sedeProceso.procesoExamen.faseProceso.proceso.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="#{lbl.lbl_fecha_aplicacion}">
+                                        <h:outputText value="#{ins.sedeProceso.procesoExamen.fechaAplicacion}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{lbl.lbl_justificacion}">
+                                        <h:outputText value="#{ins.resultadoExamen.justificacion}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{lbl.lbl_estado_inscripcion}">
+                                        <h:outputText value="#{ins.sedeProceso.procesoExamen.faseProceso.fase.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{lbl.lbl_resultado_examen}">
+                                        <h:outputText value="#{ins.resultadoExamen.estadoResultado}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{lbl.lbl_calificacion}">
+                                        <h:outputText value="#{ins.resultadoExamen.calificacion}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{lbl.lbl_acciones}">
+                                        <p:commandButton value="#{lbl.lbl_imprimir}" ajax="false" icon="ui-icon-arrowthick-1-s" rendered="#{ins.sedeProceso.procesoExamen.faseProceso.fase.id eq '1' ? true : false}">
+                                            <f:setPropertyActionListener
+                                                target="#{registroPostulanteControlador.inscripcionSeleccionada}"
+                                                value="#{ins}" />
+                                            <p:fileDownload value="#{registroPostulanteControlador.descargarPostulacion}" />
+
+                                        </p:commandButton>
+
+                                        <p:commandButton value="#{lbl.lbl_imprimir}" ajax="false" icon="ui-icon-arrowthick-1-s" rendered="#{ins.sedeProceso.procesoExamen.faseProceso.fase.id eq '6' ? true : false}">
+                                            <f:setPropertyActionListener
+                                                target="#{registroPostulanteControlador.inscripcionSeleccionada}"
+                                                value="#{ins}" />
+                                            <p:fileDownload value="#{registroPostulanteControlador.documentoDescarga}" />
+
+                                        </p:commandButton>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:outputPanel>
+                            <p:fieldset legend="INSCRIPCIÓN PARA EL EXAMEN">
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="#{lbl.lbl_proceso}"> </h:outputText>
+                                    <p:selectOneMenu value="#{registroPostulanteControlador.idProceso}"
+                                                     style="width: 210px;">
+                                        <p:ajax event="change" update=":formulario" global="false"
+                                                listener="#{registroPostulanteControlador.validarRegistro()}"/>
+                                        <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                        <f:selectItems value="#{registroPostulanteControlador.listaProcesoExamen}"
+                                                       var="proex" itemValue="#{proex.faseProceso.proceso.id}" itemLabel="#{proex.faseProceso.proceso.nombre}" />
+
+                                    </p:selectOneMenu>
+
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+                        </h:panelGrid> 
+
+
+
+                    </h:panelGrid>
+                    <div class="botones">
+                        <p:commandButton value="#{act.btn_cancelar}" action="#{registroPostulanteControlador.cancelar()}"
+                                         styleClass="registrar_btn" icon="ui-icon-close" update=":formulario" immediate="true">
+                             <p:confirm header="Confirmación" message="¿Está seguro de que quiere abandonar está página?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton onclick="dlgCancelar.show()" value="#{act.btn_registrar}" action="#{registroPostulanteControlador.redirect()}"
+                                         styleClass="cancelar_btn" icon="ui-icon-check" update=":formulario:growl" disabled="#{registroPostulanteControlador.validarInscripcion}"/>
+
+                    </div>
+
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" style="margin: 0 15px 0 100px;" icon="ui-icon-check"   />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+
+
+            </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

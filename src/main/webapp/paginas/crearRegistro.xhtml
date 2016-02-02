@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:event listener="#{crearRegistroContralador.controlNavegacion()}"
+                 type="preRenderView"></f:event>
+    </f:metadata>
+
+    <ui:composition template="./../plantilla/template_crear.xhtml">
+
+
+        <ui:define name="contenido">
+            <script type="text/javascript"
+            src="${facesContext.externalContext.request.contextPath}/resources/js/validacionesUtil.js"></script>
+            <center class="fondo_style">
+
+
+                <h:form id="formulario" styleClass="ingreso_frm" acceptcharset="iso-8859-1" >
+
+                    <p:messages id="msg" autoUpdate="true" showDetail="false" escape="false" closable="true"/>
+
+                    <center>
+                        <p id="titulo_form">
+                            <i class="fa fa-check-square-o fa-2x"></i> Crear Registro
+                        </p>
+
+                    </center>
+
+                    <div id="aviso_crear_registro">
+                        <div id="icono">
+                            <i class="fa fa-info-circle fa-3x"></i>
+                        </div>
+                        <div id="contenido-aviso">Estimado Usuario asegúrese de registrar correctamente su correo electrónico, ya que será el medio por el cual el CEAACES comunicará cualquier información relacionada al proceso.
+                        </div>
+                    </div>
+
+
+
+                    <h:panelGrid columns="2" styleClass="estilo_paneles">
+
+                        <h:panelGrid >
+                            <p:fieldset legend="#{lbl.lbl_datos_personales}">
+                                <h:panelGrid columns="2" columnClasses="column_style"
+                                             styleClass="estilo_class">
+
+                                    <h:outputText value="* #{lbl.lbl_documento_identificacion}:" />
+                                    <p:inputText 
+                                        value="#{crearRegistroContralador.persona.identificacion}" readonly="true">
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_primer_apellido}:" />
+                                    <p:inputText value="#{crearRegistroContralador.persona.primerApellido}"
+                                                 onkeyup="this.value = this.value.toUpperCase();" required="true" requiredMessage="Debe introducir primer apellido">
+                                    <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+                                    <h:outputText value="#{lbl.lbl_segundo_apellido}: " />
+                                    <p:inputText id="nombres"
+                                                 value="#{crearRegistroContralador.persona.segundoApellido}"
+                                                 onkeyup="this.value = this.value.toUpperCase();" >
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_nombres}: " />
+                                    <p:inputText id="apellido2"
+                                                 value="#{crearRegistroContralador.persona.nombres}"
+                                                 onkeyup="this.value = this.value.toUpperCase();" required="true" requiredMessage="Debe introducir nombres" >
+
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                    </p:inputText>
+
+
+                                    <h:outputText value="* #{lbl.lbl_email_personal}: " />
+                                    <p:inputText 
+                                        value="#{crearRegistroContralador.persona.contacto.emailPersonal}" required="true" requiredMessage="Debe ingresar el Email" validatorMessage="#{lbl.lbl_mensaje_email}">
+                                       <p:ajax event="blur" update="@this"></p:ajax>
+                                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                    
+                                    </p:inputText>
+
+                                    <h:outputText value="* #{lbl.lbl_repetir_email}: " />
+                                    <p:inputText 
+                                        value="#{crearRegistroContralador.repetirEmail}" required="true" requiredMessage="Debe confirmar el Email" validatorMessage="#{lbl.lbl_email_personal}">
+                                        <p:ajax event="blur" update="@this"></p:ajax>
+                                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                    </p:inputText>
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+
+                        </h:panelGrid> 
+
+
+
+                    </h:panelGrid>
+
+                    <div id="condiciones">
+
+                        <div id="condiciones_aviso">ACUERDO DE RESPONSABILIDAD PARA LA INSCRICPIÓN
+                            <div id="titulo_condiciones">Al realizar la presente inscripción, el usuario <b>DECLARA</b> que:</div>
+                            <ul id="disc_condiciones">
+                                <li>La completitud, exactitud y veracidad de la información consignada en el presente formulario es de su exclusiva responsabilidad;</li>
+                                <li>En consecuencia, libera de toda responsabilidad al CEAACES por las omisiones, errores o incorrecciones de los que adolezca la información consignada;</li>
+                                <li>Conoce y acepta que la información consignada será empleada por el CEAACES para todos los efectos derivados de la aplicación del examen, de acuerdo a la normativa vigente. </li>
+                            </ul>
+                            <h:panelGrid columns="2" style="margin: 22px 0px 0px 347px;">      
+
+                                <p:outputLabel value="Acepto:"></p:outputLabel>
+                                <p:selectBooleanCheckbox value="#{crearRegistroContralador.condiciones}">
+                                    <p:ajax update=":formulario" />
+
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
+                        </div>
+                    </div>
+
+                    <div class="botones">
+                        <p:commandButton value="#{act.btn_cancelar}" action="#{crearRegistroContralador.cancelar()}"
+                                         styleClass="registrar_btn" icon="ui-icon-close" update=":formulario" immediate="true">
+                            <p:confirm header="Confirmación" message="¿Está seguro de que quiere abandonar está página?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton onclick="dlgCancelar.show()" value="#{act.btn_registrar}" action="#{crearRegistroContralador.redirect()}"
+                                         styleClass="cancelar_btn" icon="ui-icon-check" update=":formulario:msg" disabled="#{!crearRegistroContralador.condiciones}"/>
+                    </div>
+
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" style="margin: 0 15px 0 100px;" icon="ui-icon-check"   />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+            </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

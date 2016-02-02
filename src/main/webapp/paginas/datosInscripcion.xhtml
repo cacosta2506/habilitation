@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="./../plantilla/default.xhtml">
+
+        <f:metadata>
+            <f:event listener="#{datosInscripcionControlador.controlNavegacion()}"
+                     type="preRenderView"></f:event>
+        </f:metadata>
+
+        <ui:define name="contenido">
+            <script type="text/javascript"
+            src="${facesContext.externalContext.request.contextPath}/resources/js/validacionesUtil.js"></script>
+            <center class="fondo_style">
+
+
+                <h:form id="formulario" styleClass="ingreso_frm" acceptcharset="iso-8859-1">
+
+                    <p:growl id="msg" showDetail="false" autoUpdate="true" sticky="true" />
+
+                    <center>
+                        <p id="titulo_form">
+                            <i class="fa fa-check-square-o fa-2x"></i> Datos de Inscripción
+                        </p>
+
+                    </center>
+
+                    <div id="aviso_inscripcion_registro">
+                        <div id="icono">
+                            <i class="fa fa-info-circle fa-3x"></i>
+                        </div>
+                        <div id="contenido-aviso"> Recuerde imprimir su formulario de inscripción, la presentación de este documento es obligatoria para el ingreso al Centro Académico donde rendirá el examen.
+                        </div>
+                    </div>
+
+                    <h:panelGrid columns="2">
+
+                        <h:panelGrid >
+                            <p:fieldset legend="#{lbl.lbl_datos_personales}">
+                                <h:panelGrid columns="4" columnClasses="column_style"
+                                             styleClass="estilo_class">
+
+                                    <h:outputText value="#{lbl.lbl_documento_identificacion}:" />
+                                    <p:inputText  value="#{datosInscripcionControlador.persona.identificacion}" disabled="true"/>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <h:outputText value="#{lbl.lbl_primer_apellido}:" />
+                                    <p:inputText value="#{datosInscripcionControlador.persona.primerApellido}" disabled="true"/>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <h:outputText value="#{lbl.lbl_segundo_apellido}: " />
+                                    <p:inputText id="nombres"
+                                                 value="#{datosInscripcionControlador.persona.segundoApellido}" disabled="true"/>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                    <h:outputText value="#{lbl.lbl_nombres}: " />
+                                    <p:inputText id="apellido2"
+                                                 value="#{datosInscripcionControlador.persona.nombres}" disabled="true"/>
+
+                                    <p:spacer></p:spacer>
+                                    <p:spacer></p:spacer>
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+                            <p:fieldset legend="#{lbl.lbl_sede}">
+                                <h:panelGrid columns="4" columnClasses="column_style"
+                                             styleClass="estilo_class">
+
+                                    <h:outputText value="#{lbl.lbl_provincia}: " />
+                                    <p:inputText value="#{datosInscripcionControlador.inscripcion.sedeProceso.sede.ubicacionGeografica.provincia.nombre}" disabled="true"/>
+
+
+                                    <h:outputText value="#{lbl.lbl_direccion}: " />
+                                    <h:inputTextarea  value="#{datosInscripcionControlador.inscripcion.sedeProceso.sede.direccion.callePrincipal} #{datosInscripcionControlador.inscripcion.sedeProceso.sede.direccion.numeroCasa} #{datosInscripcionControlador.inscripcion.sedeProceso.sede.direccion.calleTransversal}" disabled="true" />
+
+
+                                    <h:outputText value="#{lbl.lbl_canton}: " />
+                                    <p:inputText  value="#{datosInscripcionControlador.inscripcion.sedeProceso.sede.ubicacionGeografica.canton.nombre}" disabled="true"/>
+
+
+                                    <h:outputText value="#{lbl.lbl_fecha_aplicacion}: " />
+                                    <p:inputText  value="#{datosInscripcionControlador.inscripcion.sedeProceso.procesoExamen.fechaAplicacion}" disabled="true" />
+
+
+                                    <h:outputText value="#{lbl.lbl_centro}: " />
+                                    <h:inputTextarea   value="#{datosInscripcionControlador.inscripcion.sedeProceso.sede.nombre}" disabled="true" />
+
+                                    <h:outputText value="#{lbl.lbl_aula}: " />
+                                    <p:inputText  value="#{datosInscripcionControlador.inscripcion.aula.codigoAula}" disabled="true" />
+
+
+
+
+                                </h:panelGrid>
+
+                            </p:fieldset>
+
+
+                        </h:panelGrid> 
+
+
+
+                    </h:panelGrid>
+                    <div class="botones">
+                        <p:commandButton onclick="dlgRegistro.show()" value="#{act.btn_imprimir}"
+                                         styleClass="registrar_btn" icon="ui-icon-print" >
+                            <p:fileDownload value="#{datosInscripcionControlador.descargarPostulacion}" />
+                        </p:commandButton>
+                        <p:commandButton onclick="dlgCancelar.show()" value="#{act.btn_salir}" action="#{datosInscripcionControlador.redirect()}"
+                                         styleClass="cancelar_btn" icon="ui-icon-check" update=":formulario:msg"/>
+                    </div>
+
+
+
+
+                </h:form>
+            </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

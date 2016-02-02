@@ -1,0 +1,493 @@
+/**
+    * html5doctor.com Reset Stylesheet v1.6.1 (http://html5doctor.com/html-5-reset-stylesheet/)
+    * Richard Clark (http://richclarkdesign.com)
+    * http://cssreset.com
+    */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 12px;
+    vertical-align: middle;
+    background: transparent;
+}
+
+body {
+    line-height: 1;
+    font-size: 11px !important;
+    background: #afbfdf !important;
+    background-image:
+        url(http://www.ceaaces.gob.ec/sitio/wp-content/uploads/2014/02/ZenBG-1.png),
+        url(http://www.ceaaces.gob.ec/sitio/wp-content/uploads/2014/02/ZenBG-2.png)
+        !important;
+    background-repeat: repeat-x, repeat !important;
+}
+
+#footer {
+    background-color: #2D2D2D;
+    border-radius: 10px;
+    color: #F0F0F0;
+    padding: 10px 0;
+    margin-top: 10px;
+    -webkit-box-shadow: 10px 10px 50px -26px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 50px -26px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 50px -26px rgba(0, 0, 0, 0.75);
+}
+
+#minilogo {
+    padding: 10px 0px;
+    text-align: right;
+    margin: auto;
+}
+
+#copyright p {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+#contenido-form {
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+    border: 1px solid silver;
+    background-color: #fcfcfc;
+}
+
+#panel-login {
+    border: 5px solid #f0f0f0;
+    border-radius: 10px;
+    font-size: 15px;
+    margin: auto;
+    padding: 5px;
+    width: 430px;
+    color: #fafafa;
+    font-size: 17px !important;
+}
+
+.login
+{
+    margin: 0 0 10px 950px;
+
+}
+
+#header {
+
+    background-image: url("../images/encabezado_2015.jpg") !important;
+
+}
+
+#main {
+    font-size: 11px;
+    height: 100%;
+}
+
+#inicioPanel {
+    background: rgb(59, 103, 158); /* Old browsers */
+    background: -moz-linear-gradient(-45deg, rgba(59, 103, 158, 1) 0%,
+        rgba(43, 136, 217, 1) 50%, rgba(32, 124, 202, 1) 51%,
+        rgba(125, 185, 232, 1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(59,
+        103, 158, 1)), color-stop(50%, rgba(43, 136, 217, 1)),
+        color-stop(51%, rgba(32, 124, 202, 1)),
+        color-stop(100%, rgba(125, 185, 232, 1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg, rgba(59, 103, 158, 1) 0%,
+        rgba(43, 136, 217, 1) 50%, rgba(32, 124, 202, 1) 51%,
+        rgba(125, 185, 232, 1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg, rgba(59, 103, 158, 1) 0%,
+        rgba(43, 136, 217, 1) 50%, rgba(32, 124, 202, 1) 51%,
+        rgba(125, 185, 232, 1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg, rgba(59, 103, 158, 1) 0%,
+        rgba(43, 136, 217, 1) 50%, rgba(32, 124, 202, 1) 51%,
+        rgba(125, 185, 232, 1) 100%); /* IE10+ */
+    background: linear-gradient(135deg, rgba(59, 103, 158, 1) 0%,
+        rgba(43, 136, 217, 1) 50%, rgba(32, 124, 202, 1) 51%,
+        rgba(125, 185, 232, 1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3b679e',
+        endColorstr='#7db9e8', GradientType=1);
+    /* IE6-9 fallback on horizontal gradient */
+    margin: 60px auto auto auto;
+    padding-top: 65px;
+    border: 1px solid silver;
+    width: 430px;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.75);
+    padding: 10px 30px 10px 10px;
+}
+
+#formulario {
+    width: 1000px;
+    background-color: #fff;
+}
+
+#iniciohabilitacion {
+    border: 2px solid lightblue;
+    border-radius: 10px;
+}
+
+.panelToken {
+    background-color: #2367B7;
+    border: 4px solid #FFFFFF;
+    font-size: 0.8em;
+    font-weight: bold;
+    height: 50px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    width: 330px;
+}
+
+#ingreso {
+    overflow: auto;
+    border: 4px solid #FFFFFF;
+    border-radius: 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    height: 455px;
+    left: 437px;
+    margin: auto !important;
+    opacity: 0.85;
+    padding: 25px;
+    position: absolute;
+    text-align: center;
+    top: 80px;
+    width: 350px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0
+        , 0, 0.65)), color-stop(100%, rgba(0, 0, 0, 0)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%,
+        rgba(0, 0, 0, 0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%,
+        rgba(0, 0, 0, 0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%,
+        rgba(0, 0, 0, 0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%,
+        rgba(0, 0, 0, 0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000',
+        endColorstr='#00000000', GradientType=0);
+    /* IE6-9 fallback on horizontal gradient */
+}
+
+#panelIngreso {
+    border: 1px solid #333333;
+}
+
+center {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.panelIngreso {
+    padding: 5px;
+    color: #FFFFFF;
+    width: 0px;
+}
+
+#titulo {
+    font-size: 20px;
+    padding: 10px 0px 20px 0px;
+    font-weight: bold;
+    color: #fafafa;
+    border-bottom: 2px solid;
+    margin: 5px;
+}
+
+tr td {
+    padding: 6.5px;
+}
+
+#aviso {
+    color: #b61f2c;
+    border: 3px solid orange;
+    background-color: #ffffff;
+    text-align: justify;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+#aviso_crear_registro {
+    background-color: #ffffff;
+    border: 3px solid #1e90ff;
+    border-radius: 10px;
+    color: #1154a4;
+    font-size: 14px;
+    margin: 0 360px;
+    padding: 12px;
+    text-align: justify;
+}
+
+#aviso_inscripcion_registro {
+    background-color: #ffffff;
+    border: 3px solid #1e90ff;
+    border-radius: 10px;
+    color: #1154a4;
+    font-size: 14px;
+    margin: 0 300px;
+    padding: 12px;
+    text-align: justify;
+}
+
+#aviso_registro {
+    color: black;
+    border: 3px solid #1a88c1;
+    background-color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+#aviso_2 {
+    background-color: #FFFFFF;
+    border: 3px solid #FFA500;
+    border-radius: 10px;
+    color: #B61F2C;
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px;
+    text-align: justify;
+    width: 400px;
+}
+
+#icono {
+    position: absolute;
+}
+
+#icono_2 {
+    position: absolute;
+    top: 120px;
+}
+
+#icono_3 {
+    position: absolute;
+    top: 275px;
+}
+
+#contenido-aviso {
+    padding-left: 36px;
+    position: relative;
+}
+
+#condiciones_aviso {
+    position: relative;
+    font-weight: bold;
+}
+
+#titulo_condiciones {
+    font-weight: normal;
+    margin: 12px 15px 0;
+}
+
+#disc_condiciones{
+    list-style-type: disc;
+    font-weight: normal;
+    margin: 12px 35px 0;
+}
+
+div.select_menu {
+    width: 160px !important;
+}
+
+div.select_menu {
+    width: 170px !important;
+}
+
+td.column_style {
+    width: 100%;
+}
+
+table.estilo_class {
+    width: 100%;
+}
+
+#token {
+    background-image: url("images/ banner-rendicion-2.jpg");
+    height: 600px;
+}
+
+#contenido-form {
+    background-image: url("../images/fondo_2015.jpg") !important; 
+
+}
+
+#condiciones {
+    background-color: #ffffff;
+    border: 3px solid #1e90ff;
+    border-radius: 10px;
+    color: #1154a4;
+    font-size: 14px;
+    margin: 0 300px 20px;
+    padding: 12px;
+    text-align: justify;
+}
+
+
+#contenido-default-form {
+    background: white !important;   
+}
+
+form.ingreso_frm {
+    border: 5px solid #1A88C1;
+    border-radius: 20px;
+    margin: 20px;
+    width: 1100px !important;
+}
+
+
+
+#titulo_form {
+    font-size: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+
+center.fondo_style {
+    background: white !important;
+}
+
+#contenido-aviso_2 {
+    font-size: 14px;
+    padding-left: 36px;
+    position: relative;
+}
+
+#li {
+    text-align: justify;
+}
+
+#li ul {
+    padding-left: 20px;
+}
+
+.confirmacion {
+    width: 300px !important;
+    text-align: justify;
+}
+
+.registro_panel {
+    height: 828px;
+}
+.registro_panel_2 {
+    height: 699x;
+}
+table.estilo_class_1 {
+    width: 440px;
+}
+
+.select_menu_1 {
+    width: 260px !important;
+}
+
+.panel_estyle_1 {
+    height: 699px !important;
+}
+.panel_estyle_2 {
+    height: 739px !important;
+}
+td input {
+    width: 164px !important;
+}
+.registrar_btn {
+    border-radius: 0 0 0 15px;
+    border-top: 2px solid;
+    height: 50px;
+    padding-right: 18px !important;
+    width: 550px;
+}
+.cancelar_btn {
+    border-radius: 0 0 15px;
+    border-top: 2px solid;
+    height: 50px;
+    width: 550px;
+}
+.actualizar_btn {
+    border-radius: 10px 10px 10px 10px;
+    border-top: 2px solid;
+    height: 30px;
+    padding-right: 10px !important;
+    width: 343px;
+}
+
+.cancelar_postulacion_btn {
+    border-radius: 10px 10px 10px 10px;
+    border-top: 2px solid;
+    height: 30px;
+    padding-right: 10px !important;
+    width: 100%;
+}
+
+.botones_tab{
+    width: 100%;
+}
+
+.botones{
+
+    width: 1103px;
+}
+
+table.estilo_paneles {
+    height: 100%;
+
+}
+
+.style-tabs { 
+    height: 100%;  
+} 
+
+.style-tabs .ui-tabs-nav { 
+    height: 660px;    
+}
+.style-tabs .ui-tabs .ui-tabs-panel { 
+    height: 100%;    
+}
+
+.style-tabs .ui-tabs-left > .ui-tabs-nav{
+    height:100%;
+}
+.btn_inicio
+{
+
+}
+#ingreso_1 {
+
+    border: 4px solid #FFFFFF;
+    border-radius: 20px;
+    border-radius: 20px;
+    font-weight: bold;
+
+    left: 45px;
+    margin: auto !important;
+    opacity: 0.85;
+    padding: 25px;
+    position: relative;
+    text-align: center;
+    top: 80px;
+
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0
+        , 0, 0.1)), color-stop(100%, rgba(0, 0, 0, 0)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000',
+        endColorstr='#00000000', GradientType=0);
+    /* IE6-9 fallback on horizontal gradient */
+    width: 350px;
+}
+

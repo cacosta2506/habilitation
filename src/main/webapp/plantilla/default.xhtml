@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+        <title>Inicio | CEAACES</title>
+        <link rel="stylesheet" href="../resources/css/grid.css" type="text/css" />
+        <link rel="stylesheet" href="../resources/css/miestilo.css"  />
+        <link rel="Shortcut Icon" type="image/ico" href="../resources/images/favicon.ico" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>        
+    </h:head>
+    <f:metadata>
+        <f:event type="preRenderView"
+                 listener="#{loginValidacion.validateLoggedIn}"/>
+    </f:metadata>
+    <h:body style="height:100%;">
+
+        <!-- Nav Bar -->
+        <!-- <div id="wrapper" style="margin:0 auto; height:100%"> -->
+        <div class="container_12">
+            <div id="header" class="grid_12">
+                <div id="header-wrapper">
+                    <img src="../resources/images/encabezado_2015.jpg"/>
+                    
+
+
+                </div>
+            </div>
+            <div class="clear"></div>
+            <!-- End Nav -->
+
+            <!-- Main Page Content and Sidebar -->
+
+            <div id="contenido-default-form" class="grid_12">
+                <!-- Main Blog Content -->
+                <div id="main" style="height: 100%;">
+                    <ui:insert name="contenido" ></ui:insert>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+
+            <div id="footer">
+                <hr />
+
+                <div class="grid_6" id="copyright">
+                    <p>CEAACES © 2015. Todos los derechos reservados</p>
+                </div>
+                <div id="minilogo" class="grid_6">
+
+                    <a href="http://www.ceaaces.gob.ec" target="_blank"><img
+                            src="../resources/images/logo_footer.png" /></a>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </h:body>
+</html>
